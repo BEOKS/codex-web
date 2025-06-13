@@ -3,6 +3,9 @@
   "private": true,
   "description": "Tools for repo-wide maintenance.",
   "scripts": {
+    "dev": "pnpm --filter @openai/codex-web run dev",
+    "dev:cli": "pnpm --filter @openai/codex run dev",
+    "dev:codex": "pnpm run build && pnpm run dev",
     "release": "pnpm --filter @openai/codex run release",
     "format": "prettier --check *.json *.md .github/workflows/*.yml",
     "format:fix": "prettier --write *.json *.md .github/workflows/*.yml",
@@ -42,10 +45,14 @@
     "*.json": "prettier --write",
     "*.md": "prettier --write",
     ".github/workflows/*.yml": "prettier --write",
-    "**/*.{js,ts,tsx}": [
+    "codex-cli/**/*.{js,ts,tsx}": [
       "prettier --write",
-      "pnpm --filter @openai/codex run lint",
+      "cd codex-cli && pnpm run lint --fix",
       "cd codex-cli && pnpm run typecheck"
+    ],
+    "packages/codex-web/**/*.{js,ts,tsx}": [
+      "prettier --write",
+      "cd packages/codex-web && pnpm run lint --fix"
     ]
   },
   "packageManager": "pnpm@10.8.1"
